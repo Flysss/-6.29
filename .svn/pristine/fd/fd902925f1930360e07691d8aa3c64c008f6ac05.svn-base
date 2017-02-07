@@ -1,0 +1,18 @@
+//
+//  RecommentClientCell.h
+//  SalesHelper_A
+//
+//  Created by Brant on 16/1/26.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface RecommentClientCell : UITableViewCell
+
+@property (nonatomic, strong) UILabel *lineLabel;
+
+- (void)configtableViewCellWithDic:(NSDictionary *)dic;
++ (CGFloat)tableViewCellHeightWithDic:(NSDictionary *)dic;
+
+@end

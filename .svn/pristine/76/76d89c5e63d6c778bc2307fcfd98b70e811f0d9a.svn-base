@@ -1,0 +1,108 @@
+//
+//  ZJForwardView.m
+//  SalesHelper_A
+//
+//  Created by zhipu on 16/6/15.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "ZJForwardView.h"
+
+#import "UIColor+HexColor.h"
+
+@implementation ZJForwardView
+
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        self.imgForward = [[UIImageView alloc]init];
+        self.imgForward.contentMode = UIViewContentModeScaleAspectFill;
+        self.imgForward.clipsToBounds = YES;
+        [self addSubview:self.imgForward];
+        
+        self.lblForwardName = [[UILabel alloc]init];
+        self.lblForwardName.textColor = [UIColor colorWithHexString:@"00aff0"];
+        self.lblForwardName.font = [UIFont systemFontOfSize:14];
+        [self addSubview:self.lblForwardName];
+        
+        self.lblForwardContent = [[UILabel alloc]init];
+        self.lblForwardContent.font = [UIFont systemFontOfSize:14];
+        self.lblForwardContent.numberOfLines = 2;
+        self.lblForwardContent.textColor = [UIColor colorWithHexString:@"696969"];
+        [self addSubview:self.lblForwardContent];
+        
+        self.lblForwardTopic = [[UILabel alloc]init];
+        self.lblForwardTopic.font = [UIFont systemFontOfSize:14];
+        self.lblForwardTopic.textColor = [UIColor colorWithHexString:@"00aff0"];
+        [self addSubview:self.lblForwardTopic];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(jumpAction:)];
+        [self addGestureRecognizer:tap];
+        
+    }
+    return self;
+}
+
+
+
+
+
+
+- (void)setDic:(NSDictionary *)dic
+{
+    _dic = dic;
+    self.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+    
+    CGFloat X = 0;
+    
+    [self.imgForward sd_setImageWithURL:[NSURL URLWithString:dic[@"imgpath"]]];
+    self.lblForwardName.text = [NSString stringWithFormat:@"%@",dic[@"name"]];
+    self.lblForwardContent.text = dic[@"contents"];
+    
+    if (dic[@"topic"] && ![dic[@"topic"] isKindOfClass:[NSNull class]])
+    {
+        NSString *topicStr = [NSString stringWithFormat:@"#%@#",dic[@"topic"]];
+        NSString *str = [NSString stringWithFormat:@"%@%@",topicStr,dic[@"contents"]];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:str];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"00aff0"] range:NSMakeRange(0, topicStr.length)];
+        self.lblForwardContent.attributedText = attributedString;
+    }
+
+
+    
+        if (![dic[@"imgpath"] isEqualToString:@""])
+        {
+            self.imgForward.hidden = NO;
+            self.imgForward.frame = CGRectMake(0, 0, self.height, self.height);
+            X += self.height;
+        }
+        else
+        {
+            
+            self.imgForward.hidden = YES;
+
+        }
+    
+    self.lblForwardName.frame = CGRectMake(X+10, 5, self.width-X-10, 13);
+    
+    self.lblForwardContent.frame = CGRectMake(X+10, CGRectGetMaxY(self.lblForwardName.frame)+3, self.width-X-10, 36);
+    _forward_id = dic[@"id"];
+}
+
+
++ (CGRect)sizeWithString:(NSString *)str size:(CGSize)size font:(int)font
+{
+    CGRect bound = [str boundingRectWithSize:size options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:@{NSFontAttributeName:@(font)} context:nil];
+    return bound;
+}
+- (void)jumpAction:(UITapGestureRecognizer *)tap
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(ZJForwardViewClickJumpAction:)]) {
+        [_delegate ZJForwardViewClickJumpAction:self];
+    }
+}
+
+@end

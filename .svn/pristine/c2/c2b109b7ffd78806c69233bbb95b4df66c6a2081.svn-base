@@ -1,0 +1,255 @@
+//
+//  RecommentClientCell.m
+//  SalesHelper_A
+//
+//  Created by Brant on 16/1/26.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "RecommentClientCell.h"
+#import "UIColor+Extend.h"
+
+@implementation RecommentClientCell
+
+- (void)configtableViewCellWithDic:(NSDictionary *)dic
+{
+    self.lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(37, 0, 1, self.contentView.frame.size.height)];
+    self.lineLabel.backgroundColor = [UIColor hexChangeFloat:@"d0d0d0"];
+    [self.contentView addSubview:self.lineLabel];
+    
+    UIImageView * imageView = [UIImageView new];
+    imageView.frame = CGRectMake(37-25/2, 20, 25, 25);
+    imageView.image = [UIImage imageNamed:@"销邦-客户-推荐单个楼盘进度标签时间轴-时间点.png"];
+    [self.contentView addSubview:imageView];
+    
+    self.stageLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 23,80, 20)];
+    self.stageLabel.font = Default_Font_16;
+    self.stageLabel.textColor = [UIColor hexChangeFloat:KBlackColor];
+    
+    if ([dic[@"stage"] integerValue] == 9  ||
+        [dic[@"stage"] integerValue] == 19 ||
+        [dic[@"stage"] integerValue] == 20 ||
+        [dic[@"stage"] integerValue] == 10 ||
+        [dic[@"stage"] integerValue] == 12 ||
+        [dic[@"stage"] integerValue] == 17
+        )
+    {
+        self.stageLabel.text = dic[@"stageName"];
+    }
+    else
+    {
+        if ([dic[@"stage"] integerValue] == 1)
+        {
+            self.stageLabel.text = @"等待界定";
+        }
+        else if ([dic[@"stage"] integerValue] == 16)
+        {
+             self.stageLabel.text = @"界定有效";
+        }
+        else if ([dic[@"stage"] integerValue] == 2 || [dic[@"stage"] integerValue] == 4)
+        {
+            self.stageLabel.text = @"已分配";
+        }
+        else if ([dic[@"stage"] integerValue] == 11)
+        {
+            self.stageLabel.text = @"界定无效";
+        }
+        else
+        {
+            self.stageLabel.text = dic[@"stageName"];
+        }
+    }
+    [self.contentView addSubview:self.stageLabel];
+    
+    self.confrimLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.stageLabel.frame), 23, 55, 20)];
+    self.confrimLabel.text =@"[确认中]";
+    self.confrimLabel.textColor = [UIColor hexChangeFloat:KBlueColor];
+    self.confrimLabel.font = Default_Font_14;
+    self.confrimLabel.textAlignment = NSTextAlignmentCenter;
+    self.confrimLabel.hidden = YES;
+    [self.contentView addSubview:self.confrimLabel];
+    
+    UILabel *intentionLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame)+5, SCREEN_WIDTH-65, 15)];
+    if ([dic[@"stage"] integerValue] == 6 ||
+        [dic[@"stage"] integerValue] == 7 ||
+        [dic[@"stage"] integerValue] == 8 ||
+        [dic[@"stage"] integerValue] == 21 ||
+        [dic[@"stage"] integerValue] == 19 ||
+        [dic[@"stage"] integerValue] == 9)
+    {
+        if (dic[@"intention"] != nil && dic[@"intention"] != [NSNull null] && dic[@"intention"])
+        {
+            if ([dic[@"intention"] length] == 0)
+            {
+                intentionLabel.frame = CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame)+5, SCREEN_WIDTH-65, 5);
+            }else{
+            intentionLabel.font = Default_Font_13;
+            intentionLabel.textColor = [UIColor hexChangeFloat:@"666666"];
+            intentionLabel.text = dic[@"intention"];
+            }
+        }
+        else
+        {
+            intentionLabel.frame = CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame)+5, SCREEN_WIDTH-65, 5);
+//            intentionLabel.font = Default_Font_13;
+//            intentionLabel.textColor = [UIColor hexChangeFloat:@"666666"];
+//            intentionLabel.text = dic[@"intention"];
+    
+        }
+        
+    }
+    else
+    {
+        intentionLabel.frame = CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame)+5, SCREEN_WIDTH-65, 0);
+        intentionLabel.hidden = YES;
+    }
+    [self.contentView addSubview:intentionLabel];
+    
+    //内容
+    NSString *remarkStr = [NSString stringWithFormat:@"%@", dic[@"remark"]];
+    CGFloat remarkH = [remarkStr boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-10-55, 0) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:Default_Font_13} context:nil].size.height;
+    UILabel *remarkLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, CGRectGetMaxY(intentionLabel.frame), SCREEN_WIDTH-10-55, remarkH)];
+    remarkLabel.numberOfLines = 0;
+    remarkLabel.font = Default_Font_13;
+    remarkLabel.textColor = [UIColor hexChangeFloat:@"666666"];
+    
+    if (dic[@"remark"] != nil &&
+        dic[@"remark"] != [NSNull null] &&
+        dic[@"remark"])
+    {
+        if ([dic[@"remark"] length] == 0)
+        {
+            remarkLabel.frame = CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame), SCREEN_WIDTH-10-55, 20);
+        }
+        else
+        {
+            remarkLabel.text = dic[@"remark"];
+        }
+    }
+    else
+    {
+        remarkLabel.frame = CGRectMake(55, CGRectGetMaxY(self.stageLabel.frame), SCREEN_WIDTH-10-55, 1);
+    }
+    [self.contentView addSubview:remarkLabel];
+    
+    //拒绝理由
+    UILabel *reasonLabel;
+    if (dic[@"reason"] != nil &&
+        dic[@"reason"] != [NSNull null] &&
+        dic[@"reason"])
+    {
+        
+        CGFloat width = [dic[@"reason"] boundingRectWithSize:CGSizeMake(0,20) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:Default_Font_13} context:nil].size.width+10;
+        reasonLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, CGRectGetMaxY(intentionLabel.frame), width, 20)];
+        reasonLabel.font = Default_Font_13;
+        reasonLabel.text = dic[@"reason"];
+        reasonLabel.textColor = [UIColor hexChangeFloat:KGrayColor];
+        [self.contentView addSubview:reasonLabel];
+    }
+    //查看拒绝图片按钮
+    if (dic[@"rejectImages"] != nil &&
+        dic[@"rejectImages"] != [NSNull null] &&
+        dic[@"rejectImages"])
+    {
+        self.imageString = dic[@"rejectImages"];
+        self.rejectBtn = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reasonLabel.frame),CGRectGetMaxY(intentionLabel.frame),20,20)];
+        [self.rejectBtn setImage:[UIImage imageNamed:@"iconfont-tupian"] forState:UIControlStateNormal];
+        [self.rejectBtn addTarget:self action:@selector(clickToCheckRejectImage:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:self.rejectBtn];
+    }
+    
+    //时间
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, CGRectGetMaxY(remarkLabel.frame)+5, SCREEN_WIDTH-10-55, 15)];
+    timeLabel.font = Default_Font_13;
+    timeLabel.textColor = [UIColor hexChangeFloat:KGrayColor];
+    timeLabel.text = dic[@"updateTime"];
+    [self.contentView addSubview:timeLabel];
+    
+    if ([dic[@"stage"] integerValue] == 11)
+    {
+        
+        if (dic[@"wuxiaoimg"] != nil &&
+            dic[@"wuxiaoimg"] != [NSNull null] &&
+            dic[@"wuxiaoimg"])
+        {
+            UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(55, CGRectGetMaxY(timeLabel.frame)+5, 50, 50)];
+            [imageView1 setImage:[UIImage imageNamed:@"房源默认图.png"]];
+            [imageView1 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://jg.xiaobang.cc/Uploads/%@", dic[@"wuxiaoimg"]]] placeholderImage:[UIImage imageNamed:@"房源默认图.png"]];
+            [self.contentView addSubview:imageView1];
+        }
+    }
+    
+}
+
++ (CGFloat)tableViewCellHeightWithDic:(NSDictionary *)dic
+{
+    CGFloat cellHeight;
+    
+    cellHeight = 70;
+    
+    NSString *remarkStr = [NSString stringWithFormat:@"%@", dic[@"remark"]];
+    CGFloat remarkH = [remarkStr boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-10-55, 0) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:Default_Font_13} context:nil].size.height;
+    if (dic[@"remark"] != nil &&
+        dic[@"remark"] != [NSNull null] &&
+        dic[@"remark"])
+    {
+        
+        if ([dic[@"remark"] length] == 0)
+        {
+            cellHeight += 20;
+        }else{
+            cellHeight += remarkH;
+        }
+    }else{
+        cellHeight += 5;
+    }
+
+    if ([dic[@"stage"] integerValue] == 11)
+    {
+        if (dic[@"wuxiaoimg"] != nil &&
+            dic[@"wuxiaoimg"] != [NSNull null] &&
+            dic[@"wuxiaoimg"])
+        {
+            cellHeight += 55;
+        }
+    }
+    
+    if ([dic[@"stage"] integerValue] == 6 ||
+        [dic[@"stage"] integerValue] == 7 ||
+        [dic[@"stage"] integerValue] == 8 ||
+        [dic[@"stage"] integerValue] == 9 ||
+        [dic[@"stage"] integerValue] == 21 ||
+        [dic[@"stage"] integerValue] == 19
+        )
+    {
+        if (dic[@"intention"] != nil && dic[@"intention"] != [NSNull null] && dic[@"intention"])
+        {
+            if ([dic[@"intention"] length] == 0)
+            {
+                cellHeight += 5;
+            }else{
+            cellHeight += 20;
+            }
+        }
+    }
+    
+    return cellHeight;
+}
+
+-(void)clickToCheckRejectImage:(UIButton*)sender
+{
+    self.block(sender,self.imageString);
+}
+
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

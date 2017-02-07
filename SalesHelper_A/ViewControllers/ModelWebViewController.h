@@ -1,0 +1,25 @@
+//
+//  ModelWebViewController.h
+//  FunnyPie
+//
+//  Created by summer on 14-10-14.
+//  Copyright (c) 2014年 X. All rights reserved.
+//
+
+#import "ModelViewController.h"
+
+@interface ModelWebViewController : ModelViewController<UIWebViewDelegate>
+{
+    UIWebView *_webView;
+    UIView * topView;
+    UIButton * backBtn;
+    UIButton * rightBtn;
+}
+
+
+-(id)initWithUrlString:(NSString *)urlString NavigationTitle:(NSString *)navigationTitle;
+
+-(void)refreshBtnAction;
+
+
+@end

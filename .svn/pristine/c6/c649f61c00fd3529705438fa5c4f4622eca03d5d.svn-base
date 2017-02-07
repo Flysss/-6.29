@@ -1,0 +1,423 @@
+//
+//  ZJPostPicView.m
+//  SalesHelper_A
+//
+//  Created by zhipu on 16/5/16.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "ZJPostPicView.h"
+#import "BHFirstListModel.h"
+#import "BHHuaTiModel.h"
+#import "JLPhoto.h"
+#import "JLPhotoBrowser.h"
+
+#define HWTieZiPhotosViewMaxCount 9
+#define HWTieZiPhotosMaxCols(photosCount) ((photosCount == 4)? 2 : 3)
+#define HWTieZiPhotoW  (SCREEN_WIDTH-35)/3 - 15
+#define HWTieZiPhotoH  HWTieZiPhotoW
+#define HWTieZiPhotoMargin 5
+
+@interface ZJPostPicView ()
+@end
+
+
+@implementation ZJPostPicView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        for (int i = 0; i < HWTieZiPhotosViewMaxCount; i++) {
+            
+            self.layer.masksToBounds = YES;
+            
+            UIImageView *photoView = [[UIImageView alloc] init];
+            photoView.userInteractionEnabled = YES;
+            photoView.tag = i;
+//            UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTap:)];
+//            [photoView addGestureRecognizer:recognizer];
+            photoView.contentMode = UIViewContentModeScaleAspectFill;
+            photoView.layer.masksToBounds = YES;
+            [self addSubview:photoView];
+        }
+    
+    }
+    return self;
+}
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+
+}
+- (void)setModel:(BHFirstListModel *)model
+{
+    _model = model;
+    for (int i = 0; i<HWTieZiPhotosViewMaxCount; i++) {
+        UIImageView *photoView = self.subviews[i];
+        
+        if (i < model.imgpathsarr.count) {
+            
+            
+            [photoView sd_setImageWithURL:[NSURL URLWithString:model.imgpathsarr[i]]];
+            
+            
+            photoView.hidden = NO;
+            
+            UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTap:)];
+            [photoView addGestureRecognizer:recognizer];
+        }else{
+            
+            photoView.hidden = YES;
+            
+        }
+        
+        
+        
+        
+    }
+    
+    
+    NSInteger count = model.imgpathsarr.count;
+    
+    int maxCols = HWTieZiPhotosMaxCols(count);
+    
+    
+    
+    
+    if (count == 1) {
+        
+        UIImageView *photoView = self.subviews[0];
+        
+        UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromDiskCacheForKey:model.imgpath];
+        
+        if (image) {
+            if (image.size.width > image.size.height)
+            {
+                photoView.height = image.size.height * (self.width-10) /image.size.width;
+                
+            }
+            else
+            {
+                photoView.height = 235;
+            }
+            
+            photoView.y = 10;
+            CGFloat imgWidth = image.size.width / image.size.height * 235;
+            
+            if (imgWidth > self.width-10) {
+                imgWidth = self.width-10;
+            }
+            photoView.width = imgWidth;
+        }
+        else
+        {
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:model.imgpath] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                
+//                    photoView.height = 235;
+//                    photoView.contentMode = UIViewContentModeScaleAspectFill;
+//                    photoView.layer.masksToBounds = YES;
+//                    photoView.y = 10;
+//                    CGFloat imgWidth = image.size.width * 235 / image.size.height;
+//                    if (imgWidth > self.width-10) {
+//                        imgWidth = self.width-10;
+//                    }
+//                    photoView.width = imgWidth;
+                
+                
+                if (self.indexpath) {
+                    //
+                    NSDictionary *dic = @{@"index":self.indexpath};
+                    NSNotification *noti = [NSNotification notificationWithName:@"changeFram" object:dic];
+                    [[NSNotificationCenter defaultCenter] postNotification:noti];
+                }
+                
+            }];
+
+           
+        }
+        
+        
+    }else{
+        
+        for (int i = 0; i < count; i++) {
+            int row = i/maxCols;//行号
+            int loc = i%maxCols;//列号
+            
+            CGFloat X =(HWTieZiPhotoMargin+HWTieZiPhotoW)*loc;
+            CGFloat Y =8+(HWTieZiPhotoMargin+HWTieZiPhotoH)*row;
+            UIImageView *photoView = self.subviews[i];
+
+            photoView.frame = CGRectMake(X, Y, HWTieZiPhotoW, HWTieZiPhotoH);
+        }
+
+        
+    }
+}
+
++ (CGFloat)HeightForView:(BHFirstListModel *)model
+{
+
+    CGFloat Y = 0;
+
+    NSInteger count = [model.imgpathsarr count];
+    if (count > 9) {
+        count = 9;
+    }
+    
+    if (count == 1)
+    {
+        UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromDiskCacheForKey:model.imgpath];
+        if (image)
+        {
+            
+            if (image.size.width > image.size.height)
+            {
+                return image.size.height * (SCREEN_WIDTH-45) /image.size.width+10;
+                
+            }
+            else
+            {
+                return 245;
+            }
+        }
+        else
+        {
+            return 245;
+        }
+
+    }
+    else
+    {
+        for (int i = 0; i < count; i++)
+        {
+            int totalloc=3;
+            int row = i/totalloc;//行号
+            Y = HWTieZiPhotoMargin+(HWTieZiPhotoMargin+HWTieZiPhotoH)*row+4;
+        }
+        return Y+HWTieZiPhotoH;
+    }
+    
+}
+
+- (void)setHmodel:(BHHuaTiModel *)Hmodel
+{
+    _Hmodel = Hmodel;
+    for (int i = 0; i<HWTieZiPhotosViewMaxCount; i++) {
+        UIImageView *photoView = self.subviews[i];
+        
+        if (i < Hmodel.imgpathsarr.count) {
+            
+            [photoView sd_setImageWithURL:[NSURL URLWithString:Hmodel.imgpathsarr[i]]];
+            
+            photoView.hidden = NO;
+            UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+            [photoView addGestureRecognizer:recognizer];
+            
+        }else{
+            
+            photoView.hidden = YES;
+            
+        }
+        
+        
+        
+        
+    }
+    
+    
+    NSInteger count = Hmodel.imgpathsarr.count;
+    
+    int maxCols = HWTieZiPhotosMaxCols(count);
+    
+    
+    
+    
+    if (count == 1) {
+        
+        UIImageView *photoView = self.subviews[0];
+        UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromDiskCacheForKey:Hmodel.imgpath];
+//
+//        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:Hmodel.imgpath] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+////            photoView.height = 235;
+////            photoView.y = 10;
+////            CGFloat imgWidth = image.size.width * 235 / image.size.height;
+////            if (imgWidth > self.width-10) {
+////                imgWidth = self.width-10;
+////            }
+////            photoView.width = imgWidth;
+//            if (self.indexpath) {
+//                //
+//                NSDictionary *dic = @{@"index":self.indexpath};
+//                NSNotification *noti = [NSNotification notificationWithName:@"changeFram" object:dic];
+//                [[NSNotificationCenter defaultCenter] postNotification:noti];
+//            }
+//
+//            
+//        }];
+        if (image) {
+            if (image.size.width > image.size.height)
+            {
+                photoView.height = image.size.height * (self.width-10) /image.size.width;
+                
+            }
+            else
+            {
+                photoView.height = 235;
+            }
+            
+            photoView.y = 10;
+            CGFloat imgWidth = image.size.width / image.size.height * 235;
+            
+            if (imgWidth > self.width-10) {
+                imgWidth = self.width-10;
+            }
+            photoView.width = imgWidth;
+        }
+        else
+        {
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:Hmodel.imgpath] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                
+                if (self.indexpath) {
+                    NSDictionary *dic = @{@"index":self.indexpath};
+                    NSNotification *noti = [NSNotification notificationWithName:@"changeFram" object:dic];
+                    [[NSNotificationCenter defaultCenter] postNotification:noti];
+                }
+                
+            }];
+            
+            
+        }
+
+        
+        
+    }else{
+        
+        for (int i = 0; i < count; i++) {
+            int row = i/maxCols;//行号
+            int loc = i%maxCols;//列号
+            
+            CGFloat X =(HWTieZiPhotoMargin+HWTieZiPhotoW)*loc;
+            CGFloat Y =8+(HWTieZiPhotoMargin+HWTieZiPhotoH)*row;
+            UIImageView *photoView = self.subviews[i];
+            
+            
+            
+            photoView.frame = CGRectMake(X, Y, HWTieZiPhotoW, HWTieZiPhotoH);
+        }
+        
+        
+    }
+    
+}
+
++ (CGFloat)HeightForHView:(BHHuaTiModel *)model
+{
+    CGFloat Y = 0;
+    
+    NSInteger count = [model.imgpathsarr count];
+    if (count > 9) {
+        count = 9;
+    }
+    
+    if (count == 1)
+    {
+        UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromDiskCacheForKey:model.imgpath];
+        if (image)
+        {
+            
+            if (image.size.width > image.size.height)
+            {
+                return image.size.height * (SCREEN_WIDTH-45) /image.size.width+10;
+                
+            }
+            else
+            {
+                return 245;
+            }
+        }
+        else
+        {
+            return 245;
+        }
+
+    }
+    else
+    {
+        for (int i = 0; i < count; i++)
+        {
+            int totalloc=3;
+            int row = i/totalloc;//行号
+            Y = HWTieZiPhotoMargin+(HWTieZiPhotoMargin+HWTieZiPhotoH)*row+4;
+        }
+        return Y+HWTieZiPhotoH;
+    }
+    
+}
+
+
+
+
+- (void)tapAction:(UITapGestureRecognizer *)tap
+{
+    self.tag = tap.view.tag;
+    if (_delegate && [_delegate respondsToSelector:@selector(clickPicAction:)]) {
+        [_delegate clickPicAction:self];
+    }
+}
+- (void)photoTap:(UITapGestureRecognizer *)recognizer
+{
+    
+    NSInteger count = self.model.imgpathsarr.count;
+
+
+//    SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+//    
+//    browser.sourceImagesContainerView = self;
+//    
+//    browser.imageCount = count;
+//    
+//    browser.currentImageIndex = recognizer.view.tag;
+//    
+//    browser.delegate = self;
+//    
+//    [browser show]; // 展示图片浏览器
+    NSMutableArray *photos = [NSMutableArray array];
+    
+    for (int i=0; i<count; i++) {
+        
+        UIImageView *child = self.subviews[i];
+        //1.创建photo模型
+        JLPhoto *photo = [[JLPhoto alloc] init];
+        //2.原始imageView
+        photo.sourceImageView = child;
+        //3.要放大图片的url
+        photo.bigImgUrl = self.model.imgpathsarr[i];
+        //标志
+        photo.tag = i;
+        
+        [photos addObject:photo];
+        
+    }
+    
+    //1.创建图片浏览器
+    JLPhotoBrowser *photoBrowser = [[JLPhotoBrowser alloc] init];
+    //2.获取photo数组
+    photoBrowser.photos = photos;
+    //3.当前要显示的图片
+    photoBrowser.currentIndex = (int)recognizer.view.tag ;
+    [photoBrowser show];
+    
+    
+}
+
+
+
+
+
+
+
+
+@end

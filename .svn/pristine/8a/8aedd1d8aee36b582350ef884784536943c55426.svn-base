@@ -1,0 +1,500 @@
+//
+//  ZJPostReplyView.m
+//  SalesHelper_A
+//
+//  Created by zhipu on 16/3/20.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "ZJPostReplyView.h"
+#import "UIColor+HexColor.h"
+#import "BHFirstListModel.h"
+#import "BHHuaTiModel.h"
+
+#define KWIDTH [UIScreen mainScreen].bounds.size.width - (10+10+35) - 15 //宽度
+#define KnumberOfLines 1 //最多显示多少行
+#define KHEIGHT 20 //限制高度
+
+@implementation ZJPostReplyView
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+
+        self.lblName = [[UILabel alloc]init];
+        self.lblName.textColor = [UIColor colorWithHexString:@"a4a4a4"];
+        self.lblName.font = [UIFont systemFontOfSize:13];
+        self.lblName.numberOfLines = KnumberOfLines;
+        [self addSubview:self.lblName];
+        
+        self.lblMore = [[UILabel alloc]init];
+        self.lblMore.textColor = [UIColor colorWithHexString:@"a4a4a4"];
+        self.lblMore.font = [UIFont systemFontOfSize:13];
+        [self addSubview:self.lblMore];
+        
+        self.lblName2 = [[UILabel alloc]init];
+        self.lblName2.textColor = [UIColor colorWithHexString:@"a4a4a4"];
+        self.lblName2.font = [UIFont systemFontOfSize:13];
+        self.lblName2.numberOfLines = KnumberOfLines;
+        [self addSubview:self.lblName2];
+        
+        self.lblName3 = [[UILabel alloc]init];
+        self.lblName3.textColor = [UIColor colorWithHexString:@"a4a4a4"];
+        self.lblName3.font = [UIFont systemFontOfSize:13];
+        self.lblName3.numberOfLines = KnumberOfLines;
+        [self addSubview:self.lblName3];
+        
+    }
+    return self;
+}
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+   
+}
+- (void)setModel:(BHFirstListModel *)model
+{
+    _model = model;
+    
+    self.lblName.hidden = YES;
+    self.lblName2.hidden = YES;
+    self.lblName3.hidden = YES;
+    self.lblMore.hidden = YES;
+    CGFloat H = 0;
+    
+
+    if (model.hui.count == 1)
+    {
+        self.lblName.hidden = NO;
+
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",model.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,model.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+
+    }
+    
+    else if (model.hui.count == 2)
+    {
+        
+        self.lblName.hidden = NO;
+
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",model.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,model.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+        
+        self.lblName2.hidden = NO;
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+        [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+        self.lblName2.attributedText = str2;
+        
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+        
+        H += lblHeight+3;
+    }
+    
+    else if (model.hui.count == 3)
+    {
+        
+        self.lblName.hidden = NO;
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",model.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,model.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+        
+        self.lblName2.hidden = NO;
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+        [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+        self.lblName2.attributedText = str2;
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+        
+        H += lblHeight+3;
+        
+        self.lblName3.hidden = NO;
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+        NSMutableAttributedString *str3 = [[NSMutableAttributedString alloc] initWithString:name3];
+        [str3 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name3 rangeOfString:huifuName3]];
+        self.lblName3.attributedText = str3;
+        
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:str3.string width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        self.lblName3.frame = CGRectMake(5, H, KWIDTH, lblHeight2);
+        H += lblHeight2+3;
+    }
+   else if (model.hui.count > 3)
+   {
+       self.lblName.hidden = NO;
+       NSString *huifuName = [NSString stringWithFormat:@"%@:",model.hui[0][@"name"]];
+       NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,model.hui[0][@"contents"]];
+       NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+       [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+       self.lblName.attributedText = str;
+       
+       self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+       
+       H += 5+20;
+       
+       
+       self.lblName2.hidden = NO;
+       NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+       NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+       NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+       [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+       self.lblName2.attributedText = str2;
+       CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+       if (lblHeight > KHEIGHT) {
+           lblHeight = KHEIGHT;
+       }
+
+       self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+       
+       H += lblHeight+3;
+       
+       self.lblName3.hidden = NO;
+       NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+       NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+       NSMutableAttributedString *str3 = [[NSMutableAttributedString alloc] initWithString:name3];
+       [str3 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name3 rangeOfString:huifuName3]];
+       self.lblName3.attributedText = str3;
+       
+       CGFloat lblHeight2 = [ZJPostReplyView heightForStr:str3.string width:KWIDTH font:13];
+       if (lblHeight2 > KHEIGHT) {
+           lblHeight2 = KHEIGHT;
+       }
+       self.lblName3.frame = CGRectMake(5, H, KWIDTH, lblHeight2);
+       H += lblHeight2+3;
+       
+       self.lblMore.hidden = NO;
+       self.lblMore.text = [NSString stringWithFormat:@"查看全部%@条评论",model.huis];
+       self.lblMore.frame = CGRectMake(5, H, KWIDTH, 20);
+       
+   }
+    
+    
+}
+
++ (CGFloat)heightForStr:(NSString *)str width:(CGFloat)width font:(CGFloat)font
+{
+    CGSize size = CGSizeMake(width, 0);
+    NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:font]};
+    CGRect rect = [str boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil];
+    return rect.size.height;
+}
+
+- (void)setHmodel:(BHHuaTiModel *)Hmodel
+{
+    _Hmodel = Hmodel;
+
+    self.lblMore.hidden = YES;
+    self.lblName.hidden = YES;
+    self.lblName2.hidden = YES;
+    self.lblName3.hidden = YES;
+    CGFloat H = 0;
+    
+    
+    if (Hmodel.hui.count == 1)
+    {
+        self.lblName.hidden = NO;
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",Hmodel.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,Hmodel.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+    }
+    
+    else if (Hmodel.hui.count == 2)
+    {
+        
+        self.lblName.hidden = NO;
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",Hmodel.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,Hmodel.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+        
+        self.lblName2.hidden = NO;
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",Hmodel.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,Hmodel.hui[1][@"contents"]];
+        NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+        [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+        self.lblName2.attributedText = str2;
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+        
+        H += lblHeight+3;
+    }
+    
+    else if (Hmodel.hui.count == 3)
+    {
+        
+        self.lblName.hidden = NO;
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",Hmodel.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,Hmodel.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+        
+        self.lblName2.hidden = NO;
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",Hmodel.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,Hmodel.hui[1][@"contents"]];
+        NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+        [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+        self.lblName2.attributedText = str2;
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+        
+        H += lblHeight+3;
+        
+        self.lblName3.hidden = NO;
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",Hmodel.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,Hmodel.hui[2][@"contents"]];
+        NSMutableAttributedString *str3 = [[NSMutableAttributedString alloc] initWithString:name3];
+        [str3 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name3 rangeOfString:huifuName3]];
+        self.lblName3.attributedText = str3;
+        
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:str3.string width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        self.lblName3.frame = CGRectMake(5, H, KWIDTH, lblHeight2);
+        H += lblHeight2+3;
+    }
+    else if (Hmodel.hui.count > 3)
+    {
+        self.lblName.hidden = NO;
+        NSString *huifuName = [NSString stringWithFormat:@"%@:",Hmodel.hui[0][@"name"]];
+        NSString *name = [NSString stringWithFormat:@"%@ %@",huifuName,Hmodel.hui[0][@"contents"]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:name];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name rangeOfString:huifuName]];
+        self.lblName.attributedText = str;
+        
+        self.lblName.frame = CGRectMake(5, 5, KWIDTH, 20);
+        
+        H += 5+20;
+        
+        
+        self.lblName2.hidden = NO;
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",Hmodel.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,Hmodel.hui[1][@"contents"]];
+        NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:name2];
+        [str2 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name2 rangeOfString:huifuName2]];
+        self.lblName2.attributedText = str2;
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:str2.string width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        self.lblName2.frame = CGRectMake(5, H, KWIDTH, lblHeight);
+        
+        H += lblHeight+3;
+        
+        self.lblName3.hidden = NO;
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",Hmodel.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,Hmodel.hui[2][@"contents"]];
+        NSMutableAttributedString *str3 = [[NSMutableAttributedString alloc] initWithString:name3];
+        [str3 addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"676767"] range:[name3 rangeOfString:huifuName3]];
+        self.lblName3.attributedText = str3;
+        
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:str3.string width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        self.lblName3.frame = CGRectMake(5, H, KWIDTH, lblHeight2);
+        H += lblHeight2+3;
+        
+        self.lblMore.hidden = NO;
+        self.lblMore.text = [NSString stringWithFormat:@"查看全部%@条评论",Hmodel.huis];
+        self.lblMore.frame = CGRectMake(5, H, KWIDTH, 20);
+        
+    }
+
+}
+
+
++ (CGFloat)heightForModel:(BHFirstListModel *)model
+{
+    CGFloat H = 0;
+    if (model.hui.count == 1) {
+        H += 5+20+5;
+    }
+    else if (model.hui.count == 2) {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+5;
+
+    }
+    else if (model.hui.count == 3) {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+3;
+        
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:name3 width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        H += lblHeight2+5;
+
+    }
+    else if (model.hui.count > 3)
+    {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+3;
+        
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:name3 width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        H += lblHeight2+5;
+        H += 20+5;
+    }
+    return H;
+}
+
++ (CGFloat)heightWithModel:(BHHuaTiModel *)model
+{
+    CGFloat H = 0;
+    if (model.hui.count == 1) {
+        H += 5+20+5;
+    }
+    else if (model.hui.count == 2) {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+5;
+        
+    }
+    else if (model.hui.count == 3) {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+3;
+        
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:name3 width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        H += lblHeight2+5;
+        
+    }
+    else if (model.hui.count > 3)
+    {
+        H += 5+20;
+        
+        NSString *huifuName2 = [NSString stringWithFormat:@"%@:",model.hui[1][@"name"]];
+        NSString *name2 = [NSString stringWithFormat:@"%@ %@",huifuName2,model.hui[1][@"contents"]];
+        CGFloat lblHeight = [ZJPostReplyView heightForStr:name2 width:KWIDTH font:13];
+        if (lblHeight > KHEIGHT) {
+            lblHeight = KHEIGHT;
+        }
+        H += lblHeight+3;
+        
+        NSString *huifuName3 = [NSString stringWithFormat:@"%@:",model.hui[2][@"name"]];
+        NSString *name3 = [NSString stringWithFormat:@"%@ %@",huifuName3,model.hui[2][@"contents"]];
+        CGFloat lblHeight2 = [ZJPostReplyView heightForStr:name3 width:KWIDTH font:13];
+        if (lblHeight2 > KHEIGHT) {
+            lblHeight2 = KHEIGHT;
+        }
+        H += lblHeight2+5;
+        H += 20+5;
+    }
+    return H;
+}
+
+
+@end

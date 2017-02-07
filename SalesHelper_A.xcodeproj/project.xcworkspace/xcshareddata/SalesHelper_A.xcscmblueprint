@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "78a7b9c3-b03f-b441-abd1-e3cb7d615601++1845",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++1845" : {
+
+    },
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++9034" : {
+      "DVTSourceControlWorkingCopyRepositoryBranchesLocationKey" : "%E9%94%80%E9%82%A6\/iOS\/%E9%94%80%E9%82%A66.1\/branches"
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++1845" : 0,
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++9034" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "97D23A86-ED6E-403C-B0B5-D1EC61815E43",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++1845" : "%E9%94%80%E9%82%A66.29\/",
+    "78a7b9c3-b03f-b441-abd1-e3cb7d615601++9034" : "%E9%94%80%E9%82%A66.1\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SalesHelper_A",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SalesHelper_A.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.1.222\/svn\/%E4%BA%A7%E5%93%81",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "78a7b9c3-b03f-b441-abd1-e3cb7d615601++1845"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.1.222\/svn\/%E4%BA%A7%E5%93%81",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "78a7b9c3-b03f-b441-abd1-e3cb7d615601++9034"
+    }
+  ]
+}

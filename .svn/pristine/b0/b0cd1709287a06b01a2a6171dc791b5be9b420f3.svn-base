@@ -1,0 +1,82 @@
+//
+//  BHFirstTopicCell.m
+//  SalesHelper_A
+//
+//  Created by zhipu on 16/2/22.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "BHFirstTopicCell.h"
+#import "UIColor+HexColor.h"
+
+@implementation BHFirstTopicCell
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        self.imgLogo = [[UIImageView alloc]init];
+        self.imgLogo.image = [UIImage imageNamed:@"公告"];
+        [self.contentView addSubview:self.imgLogo];
+        
+        self.lblTopic = [[UILabel alloc]init];
+//        self.lblTopic.text = @"[公告]";
+        self.lblTopic.textAlignment = NSTextAlignmentCenter;
+        self.lblTopic.textColor = [UIColor colorWithHexString:KBlueColor];
+        self.lblTopic.font = [UIFont systemFontOfSize:18];
+        [self.contentView addSubview:self.lblTopic];
+        
+        self.lblTopicTile = [[UILabel alloc]init];
+        self.lblTopicTile.font = [UIFont systemFontOfSize:16];
+        self.lblTopicTile.textColor = [UIColor colorWithHexString:@"676767"];
+        [self.contentView addSubview:self.lblTopicTile];
+        
+        self.imgTopic = [[UIImageView alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH-20, 180*SCREEN_WIDTH/320)];
+        self.imgTopic.contentMode = UIViewContentModeScaleAspectFill;
+        self.imgTopic.clipsToBounds = YES;
+        self.imgTopic.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1];
+        [self.contentView addSubview:self.imgTopic];
+        
+
+    }
+    return self;
+}
+
+- (void)cellForModel:(BHFirstListModel *)model
+{
+    self.imgLogo.frame = CGRectMake(10, 6+10, 18, 18);
+    self.lblTopic.frame = CGRectMake(CGRectGetMaxX(self.imgLogo.frame)+5, 0, 48.5, 50);
+    self.lblTopicTile.frame = CGRectMake(CGRectGetMaxX(self.lblTopic.frame)+5, 0, SCREEN_WIDTH-CGRectGetMaxX(self.lblTopic.frame)-10, 50);
+    
+    if ([model.type isEqualToString:@"2"])
+    {
+        self.lblTopic.text = @"[公告]";
+        self.lblTopic.frame = CGRectMake(CGRectGetMaxX(self.imgLogo.frame)+5, 0, 48.5, 50);
+        self.lblTopicTile.frame = CGRectMake(CGRectGetMaxX(self.lblTopic.frame)+5, 0, SCREEN_WIDTH-CGRectGetMaxX(self.lblTopic.frame)-10, 50);
+    }
+    else if ([model.type isEqualToString:@"5"])
+    {
+        self.lblTopic.text = @"[邦学院]";
+        self.lblTopic.frame = CGRectMake(CGRectGetMaxX(self.imgLogo.frame)+5, 0, 70.5, 50);
+        self.lblTopicTile.frame = CGRectMake(CGRectGetMaxX(self.lblTopic.frame)+5, 0, SCREEN_WIDTH-CGRectGetMaxX(self.lblTopic.frame)-10, 50);
+    }
+    
+    
+    [self.imgTopic sd_setImageWithURL:[NSURL URLWithString:model.imgpath] ];
+    self.lblTopicTile.text = model.topic;
+//    self.lblTitle.text = model.topic_b;
+//    self.lblTopic.text = [NSString stringWithFormat:@"【%@】",model.topic_a];
+}
+
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

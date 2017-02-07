@@ -1,0 +1,71 @@
+//
+//  SalesHelper_A.pch
+//  SalesHelper_A
+//
+//  Created by summer on 14/12/18.
+//  Copyright (c) 2014年 X. All rights reserved.
+//
+
+#ifndef SalesHelper_A_SalesHelper_A_pch
+#define SalesHelper_A_SalesHelper_A_pch
+
+//常用类
+#ifdef __OBJC__
+
+#import "UIViewExt.h"
+#import "Toast+UIView.h"
+#import "RequestInterface.h"
+#import "CreatCustom.h"
+#import "ProjectUtil.h"
+#import "AppConfig.h"
+#import "NSString+StringTpye.h"
+#import "Reachability.h"
+#import "UIImageView+WebCache.h"
+#import "UIView+Five.h"
+#import "UIScrollView+MJRefresh.h"
+#import "class_0314.h"
+#import "UIImage+Alpha.h"
+#import "UIView+HW.h"
+#import "UIImage+HW.h"
+#import "UIBarButtonItem+HW.h"
+
+//工具条键盘按钮通知
+#define HWGongGaoToolBarHuiFuDidClick @"HWGongGaoToolBarHuiFuDidClick"
+#endif
+
+#define WS(weakSelf)  __weak __typeof(self)weakSelf = self;
+
+
+#ifdef DEBUG
+#define HWLog(...) NSLog(__VA_ARGS__)
+#else
+#define HWLog(...)
+#endif
+
+#define HWColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define HWRandomColor HWColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
+#define GetOrgCode  [[NSUserDefaults standardUserDefaults] valueForKey:@"orgCode"]
+#define GetOrgType  [[NSUserDefaults standardUserDefaults] valueForKey:@"orgType"]
+
+#define GetUserID   [[NSUserDefaults standardUserDefaults] valueForKey:@"Login_User_token"]
+#define GetUserRedirect  [[NSUserDefaults standardUserDefaults] valueForKey:@"redirect"]
+
+#define HWEmotionMaxRow 3
+#define HWEmotionMaxCols 7
+
+//表情通知
+#define HWEMotionViewDidSelectedNotification @"HWEMtionViewDidSelectedNotification"
+#define HWEmotionViewEmotion @"HWEMOtionViewDidSelectedNotification"
+#define HWEmotionDidClearButton @"HWEmotionDidClearButton"
+#define HWLinkDidClickNotification @"HWLinkDidClickNotification"
+#define HWLinkText @"HWLinkText"
+
+#define HWLabelself @"HWLabelself"
+#define HWHuaTiIDNotification @"HWHuaTiIDNotification"
+#define HuaTiID @"HuaTiID"
+#define HWImagePickerImage @"HWImagePickerImage"
+#define HWCameraImage @"HWCameraImage"
+#define HWMentionSomeOneNotie @"HWMentionSomeOneNotie"
+#define HWMenionModel @"HWMenionModel"
+#endif

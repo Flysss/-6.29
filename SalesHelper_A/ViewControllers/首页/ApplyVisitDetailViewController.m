@@ -1,0 +1,301 @@
+//
+//  ApplyVisitDetailViewController.m
+//  SalesHelper_A
+//
+//  Created by flysss on 16/5/6.
+//  Copyright © 2016年 X. All rights reserved.
+//
+
+#import "ApplyVisitDetailViewController.h"
+
+@interface ApplyVisitDetailViewController () <UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView * tableView;
+
+@property (nonatomic, strong) NSMutableArray * dataSource;
+
+
+@end
+
+@implementation ApplyVisitDetailViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.dataSource = [NSMutableArray arrayWithCapacity:0];
+    [self CreateCustomNavigtionBarWith:self leftItem:@selector(goBack) rightItem:nil];
+    UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-120)/2, 27, 120, 30)];
+    titleLabel.text = @"申请详情";
+    titleLabel.font = Default_Font_20;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleLabel setTextColor:[UIColor whiteColor]];
+    [self.topView addSubview: titleLabel];
+    [self layoutSubViews];
+    
+    [self requestDataWithRefresh:NO];
+}
+
+-(void)layoutSubViews
+{
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
+}
+
+
+-(void)tableViewConfig
+{
+    __weak ApplyVisitDetailViewController * temp = self;
+    
+    [self.tableView addHeaderWithCallback:^{
+        [temp.tableView headerEndRefreshing];
+        [temp requestDataWithRefresh:YES];
+    }];
+    
+    [self.tableView addFooterWithCallback:^{
+        [temp.tableView footerEndRefreshing];
+        [temp requestDataWithRefresh:NO];
+    }];
+    
+}
+
+
+//请求数据
+-(void)requestDataWithRefresh:(BOOL)refresh
+{
+    
+    NSDictionary * param = @{
+                             @"token":GetUserID,
+                             @"applyid":self.applyid
+                             
+                             };
+    [self.view Loading_0314];
+    RequestInterface * interface = [[RequestInterface alloc]init];
+    
+    [interface requestApplyInfomationDetailWithParam:param];
+    [interface getInterfaceRequestObject:^(id data) {
+        
+        [self.view Hidden];
+        if ([[data objectForKey:@"success"] boolValue])
+        {
+           
+            
+        }
+    } Fail:^(NSError *error) {
+        [self.view Hidden];
+    }];
+    
+}
+
+
+
+#pragma mark  tableView协议代理方法
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0)
+    {
+        return 75;
+    }
+    else if (indexPath.section == 1)
+    {
+        return 45;
+    }
+    else if (indexPath.section == 2)
+    {
+        return 100;
+    }
+    else
+    {
+        return 100;
+    }
+
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 1;
+    }
+    else if (section == 1)
+    {
+        return 5;
+    }
+    else if (section == 2)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"cell%@", indexPath]];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.section == 0)
+    {
+        
+        UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 60, 20)];
+        nameLab.text = @"你好";
+        nameLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+        nameLab.font = Default_Font_15;
+        [cell.contentView addSubview:nameLab];
+        
+        UILabel *  phoneLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(nameLab.frame)+5, 10, 120, 20)];
+        phoneLab.text = @"";
+        phoneLab.textColor = [UIColor hexChangeFloat:KGrayColor];
+        phoneLab.font = Default_Font_13;
+        [cell.contentView addSubview:phoneLab];
+        
+        UILabel * titleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(nameLab.frame)+5, 80, 20)];
+        titleLab.textColor = [UIColor hexChangeFloat:KGrayColor];
+        titleLab.font = Default_Font_13;
+        titleLab.text = @"销邦";
+        [cell.contentView addSubview:titleLab];
+        
+        UILabel* timeLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-200, CGRectGetMaxY(nameLab.frame)+5, 190, 20)];
+        timeLab.text = @"2016-04-29 16:09:22";
+        timeLab.textColor = [UIColor hexChangeFloat:KGrayColor];
+        timeLab.textAlignment = NSTextAlignmentRight;
+        timeLab.font = Default_Font_13;
+        [cell.contentView addSubview:timeLab];
+        
+        UILabel * stateLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-70, 10, 60, 20)];
+        stateLab.textColor = [UIColor hexChangeFloat:@"00aff0"];
+        stateLab.font = Default_Font_16;
+        stateLab.textAlignment = NSTextAlignmentCenter;
+        stateLab.text = @"已认购";
+        [cell.contentView addSubview:stateLab];
+     }
+    else if (indexPath.section == 1)
+    {
+        
+        if (indexPath.row == 0)
+        {
+          
+            UILabel * guardLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 12, 100, 20)];
+            guardLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+            guardLab.text = @"置业顾问";
+            guardLab.font = Default_Font_15;
+            [cell.contentView addSubview:guardLab];
+        }
+        else if (indexPath.row == 1)
+        {
+            UILabel * houseLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 12, 100, 20)];
+            houseLab.text = @"签约楼盘";
+            houseLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+            houseLab.font = Default_Font_15;
+            [cell.contentView addSubview:houseLab];
+        }
+        else if (indexPath.row == 2)
+        {
+            
+            UILabel * dealMoney = [[UILabel alloc]initWithFrame:CGRectMake(10, 12, 100, 20)];
+            dealMoney.textColor = [UIColor hexChangeFloat:KBlackColor];
+            dealMoney.text = @"成交总价";
+            dealMoney.font = Default_Font_15;
+            [cell.contentView addSubview:dealMoney];
+            
+        }
+        else if (indexPath.row == 3)
+        {
+            UILabel * recordTimeLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 12, 100, 20)];
+            recordTimeLab.text = @"2016-05-09";
+            recordTimeLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+            recordTimeLab.font = Default_Font_15;
+            [cell.contentView addSubview:recordTimeLab];
+            recordTimeLab.textAlignment = NSTextAlignmentCenter;
+            recordTimeLab.layer.cornerRadius = 5.0f;
+            recordTimeLab.layer.masksToBounds = YES;
+            
+        }
+        
+    }
+    else if (indexPath.section == 2)
+    {
+
+        UILabel * remarksLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 60, 20)];
+        remarksLab.text = @"备注:";
+        remarksLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+        remarksLab.font = Default_Font_15;
+        [cell.contentView addSubview:remarksLab];
+        
+        UILabel * refuseLab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(remarksLab.frame)+5, 10, SCREEN_WIDTH-80, 60)];
+        refuseLab.numberOfLines = 0;
+        refuseLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+        refuseLab.font = Default_Font_15;
+        [cell.contentView addSubview:refuseLab];
+        
+        
+    }
+    else
+    {
+        UILabel * reasonLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 60, 20)];
+        reasonLab.textColor = [UIColor hexChangeFloat:KBlackColor];
+        reasonLab.font = Default_Font_15;
+        reasonLab.text = @"";
+        [cell.contentView addSubview:reasonLab];
+        
+    
+    }
+    
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.01;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+
+//将列表的分割线从头开始
+//最新的，简便些
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+    {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
+    }
+    
+    
+    if (IOS_VERSION >= 8.0)
+    {
+        if([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)])
+        {
+            [cell setPreservesSuperviewLayoutMargins:NO];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+        {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0, 10, 0, 0)];
+        }
+    }
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+   
+}
+
+
+
+@end

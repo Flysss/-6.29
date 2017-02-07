@@ -1,0 +1,275 @@
+//
+//  MessageViewController.m
+//  SalesHelper_A
+//
+//  Created by My on 15/11/10.
+//  Copyright (c) 2015年 X. All rights reserved.
+//
+
+#import "MessageViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
+
+@interface MessageViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *myTime;
+
+@end
+
+@implementation MessageViewController
+{
+    NSMutableArray * dataArr;
+    NSInteger pageIndex;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    pageIndex = 1;
+    [self CreateCustomNavigtionBarWith:self leftItem:@selector(popViewCleanBadge) rightItem:nil];
+    UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-120)/2, 27, 120, 30)];
+    titleLabel.text = @"消息记录";
+    titleLabel.font = Default_Font_20;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleLabel setTextColor:[UIColor whiteColor]];
+    [self.topView addSubview: titleLabel];
+    
+    [self sendRequestIsFooter:NO];
+    
+    self.myTime.emptyDataSetDelegate = self;
+    self.myTime.emptyDataSetSource = self;
+    self.myTime.rowHeight = 105;
+    self.myTime.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    
+    [self refreshingTableView];
+    
+}
+
+
+- (void)popViewCleanBadge
+{
+    if (self.myBlock)
+    {
+        self.myBlock();
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+- (void)sendRequestIsFooter:(BOOL)isFooter
+{
+    if (isFooter) {
+        pageIndex++;
+    }else
+    {
+        pageIndex = 1;
+    }
+    [self.view Loading_0314];
+    NSNumber * page = [NSNumber numberWithInteger:pageIndex];
+    RequestInterface * interface = [[RequestInterface alloc]init];
+    NSDictionary * dict = @{
+                            @"token":self.login_user_token,
+                            @"page":page,
+                            @"size":@10,
+                            };
+    [interface requestMessageListWithDict:dict];
+    [interface getInterfaceRequestObject:^(id data) {
+        if ([[data objectForKey:@"success"] boolValue]) {
+            [self.view Hidden];
+            NSLog(@"%@",data);
+            if (isFooter)
+            {
+                [dataArr addObjectsFromArray:[data objectForKey:@"datas"]];
+            }else{
+                dataArr = [NSMutableArray arrayWithArray:[data objectForKey:@"datas"]];
+            }
+            [self.myTime reloadData];
+            [_myTime footerEndRefreshing];
+        }else{
+            [self.view Hidden];
+            [self.view makeToast:[data objectForKey:@"message"]];
+            [_myTime footerEndRefreshing];
+        }
+    } Fail:^(NSError *error) {
+        [self.view makeToast:@"加载失败"];
+        [self.view Hidden];
+        [_myTime footerEndRefreshing];
+
+    }];
+    
+}
+
+-(void)refreshingTableView
+{
+    //下拉刷新
+    __block  MessageViewController * h = self;
+    [_myTime addHeaderWithCallback:^{
+        [_myTime headerEndRefreshing];
+        [h refreshingHeaderTableView];
+    }];
+    //上拉加载
+    [_myTime addFooterWithCallback:^{
+        //        [_tableView footerEndRefreshing];
+        [h refreshingFooterTableView];
+        
+    }];
+}
+-(void)refreshingHeaderTableView
+{
+    [self sendRequestIsFooter:NO];
+}
+
+-(void)refreshingFooterTableView
+{
+    [self sendRequestIsFooter:YES];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return dataArr.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    UILabel * title = (UILabel *)[cell viewWithTag:10];
+    title.text = [[dataArr objectAtIndex:indexPath.row] objectForKey:@"title"];
+    UILabel * message = (UILabel *)[cell viewWithTag:11];
+    message.text = [[dataArr objectAtIndex:indexPath.row] objectForKey:@"content"];
+    UILabel * timeLabel = (UILabel *)[cell viewWithTag:12];
+    NSString * timeStr = [[dataArr objectAtIndex:indexPath.row] objectForKey:@"time"];
+    NSLog(@"%@",timeStr);
+    if (![timeStr isKindOfClass:[NSNull class]] && timeStr != nil) {
+//        long  long  time = [timeStr longLongValue];
+//        NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        NSDate * timeDate = [formatter dateFromString:timeStr];
+//        NSDate * nowDate = [NSDate date];
+//        NSTimeInterval aTimer = [nowDate timeIntervalSinceDate:timeDate];
+//        NSInteger hour = (int)(aTimer/3600);
+//        NSInteger minute = (int)(aTimer - hour*3600)/60;
+//        if (minute < 5 && hour == 0) {
+//            timeLabel.text = @"刚刚";
+//        }else if (minute > 5 && hour == 0){
+//            timeLabel.text = [NSString stringWithFormat:@"%ld分钟前",(long)minute];
+//        }else if (hour > 0 && hour < 2){
+//            timeLabel.text = @"1小时前";
+//        }else if (hour < 24 && hour > 2){
+//            timeLabel.text = [NSString stringWithFormat:@"%lu小时前",(long)hour];
+//        }else if (hour > 24){
+//            timeLabel.text = [NSString stringWithFormat:@"%d天前",hour/24];
+//        }
+
+        NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate * timeDate = [formatter dateFromString:timeStr];
+        NSDate * nowDate = [NSDate date];
+        NSTimeInterval aTimer = [nowDate timeIntervalSinceDate:timeDate];
+        if (aTimer/60 < 5)
+        {
+            timeLabel.text = @"刚刚";
+        }
+        else if (aTimer/60 < 60)
+        {
+            timeLabel.text = [NSString stringWithFormat:@"%d分钟前", (int)aTimer/60];
+        }
+        else if (aTimer/3600 < 2)
+        {
+            timeLabel.text = @"1小时前";
+        }
+        else if (aTimer/3600 < 24)
+        {
+            timeLabel.text = [NSString stringWithFormat:@"%d小时前", (int)aTimer/3600];
+        }
+        else if (aTimer/3600 < 48)
+        {
+            timeLabel.text = @"昨天";
+        }
+        else if (aTimer/60 < 72)
+        {
+            timeLabel.text = @"前天";
+        }
+        else
+        {
+            timeLabel.text = timeStr;
+        }
+    }
+    return cell ;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = nil;
+    UIFont *font = nil;
+    UIColor *textColor = nil;
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    text = @"暂无未读消息";
+    font =  Default_Font_12;
+    textColor = [ProjectUtil colorWithHexString:@"808080"];
+    if (!text) {
+        return nil;
+    }
+    
+    if (font) [attributes setObject:font forKey:NSFontAttributeName];
+    if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+    
+}
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"灰色.png"];
+}
+- (void)cleanBadgeWithBlock:(readedFresh)block
+{
+    self.myBlock = block;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 12, 0, 0)];
+    }
+    
+    if (IOS_VERSION >= 8.0) {
+        if([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)])
+        {
+            [cell setPreservesSuperviewLayoutMargins:NO];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0, 12, 0, 0)];
+        }
+    }
+}
+
+
+
+
+
+@end

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IWantComplainViewController">
+            <connections>
+                <outlet property="contentTextView" destination="Vlm-uX-bvf" id="U8h-oS-ZrI"/>
+                <outlet property="selectTableView" destination="dMb-hZ-zoQ" id="DyB-Zb-cns"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vlm-uX-bvf">
+                    <rect key="frame" x="10" y="280" width="300" height="110"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="hAF-Gu-hzc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="VGC-ye-9Td"/>
+                    </connections>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="内容:（150字以内）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDP-FM-OXx">
+                    <rect key="frame" x="10" y="241" width="144" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dMb-hZ-zoQ">
+                    <rect key="frame" x="10" y="84" width="300" height="132"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="132" id="84t-P6-bQh"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Bzy-Iq-ItN"/>
+                        <outlet property="delegate" destination="-1" id="ets-7R-fh2"/>
+                    </connections>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请您反馈对您推荐的楼盘的意见和建议（客服工作时间09:00-18:00内反馈我们会尽快回复并解决）" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="Bb2-YB-alY">
+                    <rect key="frame" x="10" y="398" width="300" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="tii-Ag-rnt"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.87843137250000003" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Bb2-YB-alY" secondAttribute="trailing" constant="10" id="6fp-i0-aQ8"/>
+                <constraint firstItem="Vlm-uX-bvf" firstAttribute="top" secondItem="dMb-hZ-zoQ" secondAttribute="bottom" constant="64" id="7nk-AM-iUl"/>
+                <constraint firstItem="dMb-hZ-zoQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="CW3-DQ-leg"/>
+                <constraint firstItem="Vlm-uX-bvf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Gyg-3R-Ssk"/>
+                <constraint firstItem="Bb2-YB-alY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Iun-ga-EWr"/>
+                <constraint firstAttribute="trailing" secondItem="dMb-hZ-zoQ" secondAttribute="trailing" constant="10" id="LwF-O7-Pst"/>
+                <constraint firstItem="Bb2-YB-alY" firstAttribute="top" secondItem="Vlm-uX-bvf" secondAttribute="bottom" constant="8" id="STu-SG-lcw"/>
+                <constraint firstItem="dMb-hZ-zoQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="mHS-Co-fJ3"/>
+                <constraint firstAttribute="trailing" secondItem="Vlm-uX-bvf" secondAttribute="trailing" constant="10" id="nCV-dS-rLY"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="543" y="294"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell_HUD" rowHeight="44" id="KGk-i7-Jjw" customClass="TableViewCell_HUD">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qy5-vj-ich">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0CR-A2-zzz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.94000000000000006" colorSpace="calibratedRGB"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12312312" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Dp-30-NcB">
+                        <rect key="frame" x="120" y="11" width="81" height="22"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" red="0.19215686269999999" green="0.50588235290000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="√" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2WR-5R-kKo">
+                        <rect key="frame" x="284" y="11" width="10" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.85490196078431369" green="0.16862745098039217" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="0CR-A2-zzz" secondAttribute="bottom" constant="1" placeholder="YES" id="6gT-QH-GRM"/>
+                    <constraint firstAttribute="centerY" secondItem="2WR-5R-kKo" secondAttribute="centerY" id="7Uo-Wb-CNp"/>
+                    <constraint firstAttribute="bottom" secondItem="qy5-vj-ich" secondAttribute="bottom" id="AEy-lB-Uaw"/>
+                    <constraint firstItem="qy5-vj-ich" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ARL-fc-FNy"/>
+                    <constraint firstAttribute="centerY" secondItem="2Dp-30-NcB" secondAttribute="centerY" id="Cv5-OF-m8D"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="2WR-5R-kKo" secondAttribute="trailing" constant="18" id="JiY-Df-FMb"/>
+                    <constraint firstAttribute="centerX" secondItem="2Dp-30-NcB" secondAttribute="centerX" id="KSp-T3-HkV"/>
+                    <constraint firstItem="qy5-vj-ich" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="OZx-Jv-sR1"/>
+                    <constraint firstItem="0CR-A2-zzz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="daW-fL-MlS"/>
+                    <constraint firstAttribute="trailing" secondItem="qy5-vj-ich" secondAttribute="trailing" id="gSq-vp-UQR"/>
+                    <constraint firstItem="0CR-A2-zzz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="jpT-Dh-oSe"/>
+                    <constraint firstAttribute="trailing" secondItem="0CR-A2-zzz" secondAttribute="trailing" id="lYT-Br-pVw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="UIView_0314" destination="0CR-A2-zzz" id="HtA-ow-OYv"/>
+                <outlet property="UIlabel_IsSelected" destination="2WR-5R-kKo" id="6Cu-Gv-wDc"/>
+                <outlet property="UIlabel_Text" destination="2Dp-30-NcB" id="Fn0-Lf-jM3"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

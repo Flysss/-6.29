@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ForgetPassStep1ViewController">
+            <connections>
+                <outlet property="getIdentityCodeBtn" destination="GW4-J9-IMO" id="fU2-sL-oBC"/>
+                <outlet property="phoneField" destination="g1g-S2-d0b" id="Orr-g5-hk6"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mmO-cQ-Hnc">
+                    <rect key="frame" x="0.0" y="108" width="320" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+86" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owI-F3-gQj">
+                            <rect key="frame" x="8" y="9" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fn-w6-njH">
+                            <rect key="frame" x="60" y="5" width="1" height="30"/>
+                            <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="g1g-S2-d0b">
+                            <rect key="frame" x="69" y="0.0" width="251" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="yeI-GH-puL"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="uzr-2z-Prt"/>
+                            </connections>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="g1g-S2-d0b" secondAttribute="trailing" id="P5H-6d-6sB"/>
+                        <constraint firstItem="g1g-S2-d0b" firstAttribute="top" secondItem="mmO-cQ-Hnc" secondAttribute="top" id="Xwb-rI-Hbw"/>
+                        <constraint firstItem="g1g-S2-d0b" firstAttribute="leading" secondItem="mmO-cQ-Hnc" secondAttribute="leading" constant="69" id="if6-A2-mg3"/>
+                        <constraint firstAttribute="height" constant="40" id="in5-Au-NXu"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请确认您的手机号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8v-Wf-F6x">
+                    <rect key="frame" x="10" y="76" width="173" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.37254901960784315" green="0.37254901960784315" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GW4-J9-IMO">
+                    <rect key="frame" x="10" y="166" width="300" height="40"/>
+                    <color key="backgroundColor" red="0.0" green="0.68627450980392157" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="PjK-X6-jew"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="获取验证码">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="getIdentityCodeAction:" destination="-1" eventType="touchUpInside" id="uUt-Vu-3RY"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="mmO-cQ-Hnc" secondAttribute="trailing" id="Msz-d8-bSI"/>
+                <constraint firstItem="GW4-J9-IMO" firstAttribute="top" secondItem="mmO-cQ-Hnc" secondAttribute="bottom" constant="18" id="a0v-U4-cvU"/>
+                <constraint firstAttribute="trailing" secondItem="GW4-J9-IMO" secondAttribute="trailing" constant="10" id="dPQ-46-svJ"/>
+                <constraint firstItem="GW4-J9-IMO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="m2Q-dk-qN3"/>
+                <constraint firstItem="mmO-cQ-Hnc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="t79-8k-e8R"/>
+                <constraint firstItem="mmO-cQ-Hnc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="108" id="tQg-A3-Xo6"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>
